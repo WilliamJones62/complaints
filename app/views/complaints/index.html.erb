@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<table id="listtab"  class="stripe" class="mytable" class="display" cellspacing="0" >
+  <thead>
+    <tr>
+      <th>User name</th>
+      <th>Invoice #</th>
+      <th>Part code</th>
+      <th>Date of issue</th>
+      <th>Show</th>
+      <th>Edit</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @complaints.each do |complaint| %>
+      <tr>
+        <td><%= complaint.user %></td>
+        <td><%= complaint.invoice %></td>
+        <td><%= complaint.part %></td>
+        <td><%= display_date(complaint.issue_date) %></td>
+        <td><%= link_to 'Show', complaint %></td>
+        <td><%= link_to 'Edit', edit_complaint_path(complaint) %></td>
+        <td><%= link_to 'Delete', complaint, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Issue', new_complaint_path %>
+
+<% if @user == 'ADMIN' %>
+  <h2>Import Complaint List</h2>
+  <%= form_tag import_complaints_path, multipart: true do %>
+    <%= file_field_tag :file %>
+    <%= submit_tag "Import" %>
+  <% end %>
+<% end %>

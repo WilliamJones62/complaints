@@ -1,0 +1,67 @@
+<p id="notice"><%= notice %></p>
+
+<table>
+  <thead>
+    <tr>
+      <th><strong>User name</strong></th>
+      <th><strong>Invoice #</strong></th>
+      <th><strong>Part code</strong></th>
+      <th><strong>Qty returned</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @complaint.user %></td>
+      <td><%= @complaint.invoice %></td>
+      <td><%= @complaint.part %></td>
+      <td><%= @complaint.part_count %></td>
+    </tr>
+  </tbody>
+</table>
+<table>
+  <thead>
+    <tr>
+      <th><strong>Date of issue</strong></th>
+      <th><strong>Issue</strong></th>
+      <th><strong>Issue2</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= display_date(@complaint.issue_date) %></td>
+      <td><%= @complaint.issue %></td>
+      <td><%= @complaint.issue2 %></td>
+    </tr>
+  </tbody>
+</table>
+<table>
+  <thead>
+    <tr>
+      <th><strong>Notes</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @complaint.notes %></td>
+    </tr>
+  </tbody>
+</table>
+<table id="listtab"  class="stripe" class="mytable" class="display" cellspacing="0" >
+  <thead>
+    <tr>
+      <th> Image </th>
+      <th> Show </th>
+      <th> Delete </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @complaint.complaint_images.each do |c| %>
+    <tr>
+      <td> <%= image_tag c.image.thumb.url %> </td>
+      <td><%= link_to 'Show',  controller: "complaints", action: "showimage", id: c %></td>
+      <td><%= link_to 'Delete', complaint_complaint_image_path(@complaint.id, c.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= link_to 'Edit', edit_complaint_path(@complaint) %>

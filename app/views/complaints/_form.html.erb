@@ -1,0 +1,65 @@
+<%= form_with(model: complaint, local: true) do |form| %>
+  <% if complaint.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(complaint.errors.count, "error") %> prohibited this issue from being saved:</h2>
+
+      <ul>
+      <% complaint.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <table>
+    <thead>
+      <tr>
+        <th><%= form.label :user, 'User name' %></th>
+        <th><%= form.label :invoice, 'Invoice #' %></th>
+        <th><%= form.label :part, 'Part code' %></th>
+        <th><%= form.label :part_count, 'Qty returned' %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= form.text_field :user, value: @user, readonly: true, id: :complaint_user %></td>
+        <td><%= form.text_field :invoice, id: :complaint_invoice %></td>
+        <td><%= form.text_field :part, id: :complaint_part %></td>
+        <td><%= form.number_field :part_count, id: :complaint_part_count %></td>
+      </tr>
+    </tbody>
+  </table>
+  <table>
+    <thead>
+      <tr>
+        <th><%= form.label :issue_date, 'Date of issue' %></th>
+        <th><%= form.label :issue %></th>
+        <th><%= form.label :issue2 %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= form.date_field :issue_date, id: :complaint_issue_date %></td>
+        <td><%= form.select :issue, @issue, {:include_blank => true}, {:value => params[:issue], id: :complaint_issue} %></td>
+        <td><%= form.select :issue2, @issue, {:include_blank => true}, {:value => params[:issue2], id: :complaint_issue2} %></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="field">
+    <%= form.label :notes %>
+    <%= form.text_area :notes, size: "40x2", id: :complaint_notes %>
+  </div>
+  <%= form.fields_for :complaint_images do |image| %>
+    <div class="field">
+      <%= image.label :image %>
+      <%= image.file_field :image%>
+      <% if image.object.image? %>
+        <%= image_tag image.object.image.thumb.url %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit 'Submit issue' %>
+  </div>
+<% end %>
