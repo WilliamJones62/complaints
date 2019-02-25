@@ -5,6 +5,8 @@
     <tr>
       <th>User name</th>
       <th>Invoice #</th>
+      <th>Order #</th>
+      <th>Lot #</th>
       <th>Part code</th>
       <th>Date of issue</th>
       <th>Show</th>
@@ -18,6 +20,8 @@
       <tr>
         <td><%= complaint.user %></td>
         <td><%= complaint.invoice %></td>
+        <td><%= complaint.issue4 %></td>
+        <td><%= complaint.issue3 %></td>
         <td><%= complaint.part %></td>
         <td><%= display_date(complaint.issue_date) %></td>
         <td><%= link_to 'Show', complaint %></td>

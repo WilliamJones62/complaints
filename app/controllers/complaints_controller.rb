@@ -89,7 +89,7 @@ class ComplaintsController < ApplicationController
     end
 
     def build_lists
-      @issue = ['BUTCHERING/HANDLING','SHELF LIFE/AGE', 'LOOSE/BLOWN BAG', 'PRODUCT CONSISTENCY', 'FOREIGN MATERIAL']
+      @issue = ['BUTCHERING/HANDLING','SHELF LIFE/AGE', 'LOOSE/BLOWN BAG', 'PRODUCT CONSISTENCY', 'FOREIGN MATERIAL', 'TEMPERATURE']
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

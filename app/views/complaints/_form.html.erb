@@ -16,22 +16,25 @@
       <tr>
         <th><%= form.label :user, 'User name' %></th>
         <th><%= form.label :invoice, 'Invoice #' %></th>
+        <th><%= form.label :issue4, 'Order #' %></th>
+        <th><%= form.label :issue3, 'Lot #' %></th>
         <th><%= form.label :part, 'Part code' %></th>
-        <th><%= form.label :part_count, 'Qty returned' %></th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td><%= form.text_field :user, value: @user, readonly: true, id: :complaint_user %></td>
         <td><%= form.text_field :invoice, id: :complaint_invoice %></td>
+        <td><%= form.text_field :issue4, id: :complaint_issue4 %></td>
+        <td><%= form.text_field :issue3, id: :complaint_issue3 %></td>
         <td><%= form.text_field :part, id: :complaint_part %></td>
-        <td><%= form.number_field :part_count, id: :complaint_part_count %></td>
       </tr>
     </tbody>
   </table>
   <table>
     <thead>
       <tr>
+        <th><%= form.label :part_count, 'Qty returned' %></th>
         <th><%= form.label :issue_date, 'Date of issue' %></th>
         <th><%= form.label :issue %></th>
         <th><%= form.label :issue2 %></th>
@@ -39,6 +42,7 @@
     </thead>
     <tbody>
       <tr>
+        <td><%= form.number_field :part_count, id: :complaint_part_count %></td>
         <td><%= form.date_field :issue_date, id: :complaint_issue_date %></td>
         <td><%= form.select :issue, @issue, {:include_blank => true}, {:value => params[:issue], id: :complaint_issue} %></td>
         <td><%= form.select :issue2, @issue, {:include_blank => true}, {:value => params[:issue2], id: :complaint_issue2} %></td>

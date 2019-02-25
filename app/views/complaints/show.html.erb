@@ -5,22 +5,25 @@
     <tr>
       <th><strong>User name</strong></th>
       <th><strong>Invoice #</strong></th>
+      <th><strong>Order #</strong></th>
+      <th><strong>Lot #</strong></th>
       <th><strong>Part code</strong></th>
-      <th><strong>Qty returned</strong></th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><%= @complaint.user %></td>
       <td><%= @complaint.invoice %></td>
+      <td><%= @complaint.issue4 %></td>
+      <td><%= @complaint.issue3 %></td>
       <td><%= @complaint.part %></td>
-      <td><%= @complaint.part_count %></td>
     </tr>
   </tbody>
 </table>
 <table>
   <thead>
     <tr>
+      <th><strong>Qty returned</strong></th>
       <th><strong>Date of issue</strong></th>
       <th><strong>Issue</strong></th>
       <th><strong>Issue2</strong></th>
@@ -28,6 +31,7 @@
   </thead>
   <tbody>
     <tr>
+      <td><%= @complaint.part_count %></td>
       <td><%= display_date(@complaint.issue_date) %></td>
       <td><%= @complaint.issue %></td>
       <td><%= @complaint.issue2 %></td>
