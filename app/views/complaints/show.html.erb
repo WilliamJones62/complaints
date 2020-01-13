@@ -14,8 +14,8 @@
     <tr>
       <td><%= @complaint.user %></td>
       <td><%= @complaint.invoice %></td>
-      <td><%= @complaint.issue4 %></td>
-      <td><%= @complaint.issue3 %></td>
+      <td><%= @complaint.order %></td>
+      <td><%= @complaint.lot %></td>
       <td><%= @complaint.part %></td>
     </tr>
   </tbody>
@@ -23,7 +23,7 @@
 <table>
   <thead>
     <tr>
-      <th><strong>Qty returned</strong></th>
+      <th><strong>Qty</strong></th>
       <th><strong>Date of issue</strong></th>
       <th><strong>Issue</strong></th>
       <th><strong>Issue2</strong></th>
@@ -55,17 +55,19 @@
     <tr>
       <th> Image </th>
       <th> Show </th>
-      <th> Delete </th>
     </tr>
   </thead>
   <tbody>
     <% @complaint.complaint_images.each do |c| %>
-    <tr>
-      <td> <%= image_tag c.image.thumb.url %> </td>
-      <td><%= link_to 'Show',  controller: "complaints", action: "showimage", id: c %></td>
-      <td><%= link_to 'Delete', complaint_complaint_image_path(@complaint.id, c.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
-    </tr>
+      <% if !c.image.blank? %>
+      <tr>
+        <td><%= image_tag c.image.thumb.url %></td>
+        <td><%= link_to 'Show',  controller: "complaints", action: "showimage", id: c %></td>
+      </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>
 <%= link_to 'Edit', edit_complaint_path(@complaint) %>
+<%= link_to 'Active', complaints_summary_path %>
+<%= link_to 'Inactive', complaints_inactive_path %>

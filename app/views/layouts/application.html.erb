@@ -3,6 +3,7 @@
   <head>
     <title>Complaints</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="turbolinks-cache-control" content="no-cache">
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -22,8 +23,403 @@
     <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="//cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
     <script src="//cdn.datatables.net/buttons/1.4.2/js/buttons.print.min.js"></script>
-    <script src="/assets/printPreview.js"></script>
-    <script src="/assets/myjavascript.js"></script>
-    <script src="/assets/myjavascript2.js"></script>
+    <script>
+      $(document).ready(function() {
+
+        $('#listtab').DataTable({
+          scrollY: "30vh",
+          scrollCollapse: true,
+          paging: false,
+          autoWidth: true,
+          responsive: true,
+          retrieve: true,
+          dom: 'Bfrtip',
+          buttons: [
+            {
+            extend: 'print',
+            }
+          ]
+        });
+
+        $('#listtab2').DataTable({
+          scrollY: "30vh",
+          scrollCollapse: true,
+          paging: false,
+          autoWidth: true,
+          responsive: true,
+          retrieve: true,
+          dom: 'Bfrtip',
+          buttons: [
+            {
+            extend: 'print',
+            }
+          ]
+        });
+
+        $("#btnPrint").printPreview({
+          obj2print:'#main'
+        });
+
+      });
+    </script>
+    <script type="text/javascript">
+      function getData(data) {
+        var p1 = data.replace('[', "");
+        var p2 = p1.replace(']', "");
+        p1 = p2.replace(/"/g, "");
+        p2 = p1.replace(/,/g, "");
+        var data_array = p2.split(" ");
+        data_array.shift();
+        data_array.pop();
+        return data_array;
+      }
+
+      function set_name() {
+        //* find name matches with value in the search field
+        var prefix = document.getElementById("search");
+        var user_prefix = prefix.value.toUpperCase();
+        var i = 0;
+        var text = ' ';
+        if (user_prefix.length == 0 || !user_prefix.trim()) {
+          //* if the user prefix is now empty go back to name list
+          var names = document.getElementById("names").innerHTML;
+          var names_array = getData(names);
+          var name = document.getElementById("name");
+          name.options.length = 0;
+          var o = document.createElement("option");
+          o.selected = true;
+          var arraylength = names_array.length;
+          for (i = 0; i < arraylength; i++) {
+            text = names_array[i].replace(/~/g, ' ').replace(/;/g, ',');
+            o.text = text.replace(/&amp;/g, '&');
+            name.options.add(o, name.options.length);
+            o.selected = false;
+            o = document.createElement("option");
+          }
+        } else {
+          //* Use user prefix to get list of names
+          var names = document.getElementById("names").innerHTML;
+          var names_array = getData(names);
+          var name = document.getElementById("name");
+          name.options.length = 0;
+          var o = document.createElement("option");
+          o.selected = true;
+          var arraylength = names_array.length;
+          var pos = 0;
+          for (i = 0; i < arraylength; i++) {
+            pos = names_array[i].search(user_prefix);
+            if (pos == 0) {
+            //* the user name starts with the prefix entered by the user
+              text = names_array[i].replace(/~/g, ' ').replace(/;/g, ',');
+              o.text = text.replace(/&amp;/g, '&');
+              name.options.add(o, name.options.length);
+              o.selected = false;
+              o = document.createElement("option");
+            }
+          }
+        }
+      }
+
+      function categoryIssues(id) {
+        var category_list = document.getElementById(id);
+        var category = category_list.options[category_list.selectedIndex].text;
+        if (category != ' ') {
+          //* a category was selected so build the appropriate issue list
+          var iss = id.replace("category", "issue");
+          var issue = document.getElementById(iss);
+          issue.options.length = 0;
+          var o = document.createElement("option");
+          o.selected = true;
+          switch (category) {
+            case 'OPERATIONS':
+              o.text = 'WRONG ITEM'
+              issue.options.add(o, issue.options.length);
+              o.selected = false;
+              o = document.createElement("option");
+              o.text = 'SHORT DATE'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'LOADING ERROR'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'LESS THAN ORDERED'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'MORE THAN ORDERED'
+              issue.options.add(o, issue.options.length);
+              break;
+            case 'PURCHASING':
+              o.text = 'LATE DELIVERY'
+              issue.options.add(o, issue.options.length);
+              o.selected = false;
+              o = document.createElement("option");
+              o.text = 'MORE THAN ORDER'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'LESS THAN ORDER'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'HIGH TEMPERATURE'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'LOW TEMPERATURE'
+              issue.options.add(o, issue.options.length);
+              break;
+            case 'QUALITY':
+              o.text = 'INCORRECT CUT'
+              issue.options.add(o, issue.options.length);
+              o.selected = false;
+              o = document.createElement("option");
+              o.text = 'PRODUCT APPEARANCE'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'BLOOD SHOT'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'BRUISING'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'BROKEN BONES'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'EXPIRED BEFORE DATE'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'EXCESS PURGE'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'DISCOLORATION'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'FOREIGN MATERIAL - BONE'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'FOREIGN MATERIAL - TUMOR'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'FOREIGN MATERIAL - PELLET'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'FOREIGN MATERIAL - OTHER'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'PACKAGING - LOOSE/BLOWN'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'PACKAGING - LEAK'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'PACKAGING - MISLABLED'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'TEXTURE'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'LOT TO LOT VARIATION'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'COOK UP ISSUE'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'MARBLING'
+              issue.options.add(o, issue.options.length);
+              break;
+            default:
+              o.text = 'CUSTOMER ORDERED WRONG PRODUCT'
+              issue.options.add(o, issue.options.length);
+              o.selected = false;
+              o = document.createElement("option");
+              o.text = 'ORDER ENTRY ERROR'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'CUSTOMER ACCOMODATION'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'PRICING ISSUE'
+              issue.options.add(o, issue.options.length);
+              o = document.createElement("option");
+              o.text = 'CREDIT ISSUE'
+              issue.options.add(o, issue.options.length);
+          }
+        }
+      }
+    </script>
+    <style media="screen">
+      body {
+        background-color: #fff;
+        color: #333;
+        margin: 3px;
+        font-family: verdana, arial, helvetica, sans-serif;
+        font-size: 13px;
+        line-height: 18px;
+      }
+
+      p, ol, ul, td {
+        font-family: verdana, arial, helvetica, sans-serif;
+        font-size: 13px;
+        line-height: 18px;
+      }
+
+      pre {
+        background-color: #eee;
+        padding: 10px;
+        font-size: 11px;
+      }
+
+      a:link, a:visited {
+          background-color: white;
+          color: black;
+          border: 2px solid black;
+          border-radius: 4px;
+          padding: 5px 5px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+      }
+
+      a:hover, a:active {
+          background-color: black;
+          color: white;
+          box-shadow: 5px 10px 8px #888888;
+      }
+
+      table, th, td {
+          border: 0px solid black;
+          border-collapse: collapse;
+      }
+
+      th, td {
+        padding: 1px;
+        text-align: left;
+      }
+
+      th{
+        text-align: left;
+        background-color: black;
+        color: white;
+      }
+
+      tr:nth-child(even){
+        background-color: #d6d6d6;
+      }
+
+      div {
+        &.field, &.actions {
+          margin-bottom: 10px;
+        }
+      }
+
+      .title {
+        text-align: center;
+        float: left;
+        margin-left: 1em;
+        margin-right: 1em;
+      }
+
+      .primary-logo {
+        margin: 0;
+        width: 5.5em;
+        height: 3em;
+        float: left;
+        position: relative;
+        background: image-url("/assets/DArtagnan_Logo_2015_CMYK_micro.jpg");
+      }
+
+      #notice {
+        color: green;
+      }
+
+      #flash_notice {
+        color: green;
+      }
+
+      #flash_alert {
+        color: rgb(255,128,0);
+      }
+
+      #flash_error {
+        color: rgb(255,153,153);
+      }
+
+      .field_with_errors {
+        padding: 2px;
+        background-color: red;
+        display: table;
+      }
+
+      #error_explanation {
+        width: 450px;
+        border: 2px solid red;
+        padding: 7px 7px 0;
+        margin-bottom: 20px;
+        background-color: #f0f0f0;
+
+        h2 {
+          text-align: left;
+          font-weight: bold;
+          padding: 5px 5px 5px 15px;
+          font-size: 12px;
+          margin: -7px -7px 0;
+          background-color: #c00;
+          color: #fff;
+        }
+
+        ul li {
+          font-size: 12px;
+          list-style: square;
+        }
+      }
+
+      label {
+        display: block;
+      }
+
+      #althead {
+        text-align: left;
+        background-color: black;
+        color: white;
+      }
+
+      #navbar span {
+        float: left;
+        margin-right: 1em;
+      }
+      .dropbtn {
+        background-color: white;
+        color: black;
+        border: 2px solid black;
+        border-radius: 4px;
+        padding: 5px 5px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        float: left;
+        display: inline-block;
+      }
+
+      .dropdown {
+          position: relative;
+          display: inline-block;
+      }
+
+      .dropdown-content {
+          display: none;
+          position: absolute;
+          min-width: 45px;
+          z-index: 1;
+      }
+
+      .dropdown-content span {
+          color: black;
+          text-decoration: none;
+          display: block;
+      }
+
+      /* .dropdown-content span:hover {background-color: rgb(255,255,102)} */
+
+      .dropdown:hover .dropdown-content {
+          display: block;
+      }
+    </style>
   </body>
 </html>

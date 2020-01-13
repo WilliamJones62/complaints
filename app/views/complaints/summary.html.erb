@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<h2>Active Issues</h2>
+<table id="listtab"  class="stripe" class="mytable" class="display" cellspacing="0" >
+  <thead>
+    <tr>
+      <th>User name</th>
+      <th>Invoice #</th>
+      <th>Order #</th>
+      <th>Lot #</th>
+      <th>Part code</th>
+      <th>Date of issue</th>
+      <th>Edit</th>
+      <th>Show</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @complaints.each do |complaint| %>
+      <tr>
+        <td><%= complaint.user %></td>
+        <td><%= complaint.invoice %></td>
+        <td><%= complaint.order %></td>
+        <td><%= complaint.lot %></td>
+        <td><%= complaint.part %></td>
+        <td><%= display_date(complaint.issue_date) %></td>
+        <td><%= link_to 'Edit', edit_complaint_path(complaint) %></td>
+        <td><%= link_to 'Show', complaint_path(complaint) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Issue', complaints_path %>
+<%= link_to 'Inactive', complaints_inactive_path %>

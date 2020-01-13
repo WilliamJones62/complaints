@@ -16,36 +16,42 @@
       <tr>
         <th><%= form.label :user, 'User name' %></th>
         <th><%= form.label :invoice, 'Invoice #' %></th>
-        <th><%= form.label :issue4, 'Order #' %></th>
-        <th><%= form.label :issue3, 'Lot #' %></th>
+        <th><%= form.label :order, 'Order #' %></th>
+        <th><%= form.label :lot, 'Lot #' %></th>
         <th><%= form.label :part, 'Part code' %></th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><%= form.text_field :user, value: @user, readonly: true, id: :complaint_user %></td>
+        <td><%= form.text_field :user, :value => $name, readonly: true, id: :complaint_user %> </td>
         <td><%= form.text_field :invoice, id: :complaint_invoice %></td>
-        <td><%= form.text_field :issue4, id: :complaint_issue4 %></td>
-        <td><%= form.text_field :issue3, id: :complaint_issue3 %></td>
-        <td><%= form.text_field :part, id: :complaint_part %></td>
+        <td><%= form.text_field :order, id: :complaint_order %></td>
+        <td><%= form.text_field :lot, id: :complaint_lot %></td>
+        <td><%= form.select :part, $parts, {}, {} %></td>
       </tr>
     </tbody>
   </table>
   <table>
     <thead>
       <tr>
-        <th><%= form.label :part_count, 'Qty returned' %></th>
+        <th><%= form.label :part_count, 'Qty' %></th>
         <th><%= form.label :issue_date, 'Date of issue' %></th>
         <th><%= form.label :issue %></th>
         <th><%= form.label :issue2 %></th>
+        <% if @editing %>
+          <th><%= form.label :status %></th>
+        <% end %>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><%= form.number_field :part_count, id: :complaint_part_count %></td>
-        <td><%= form.date_field :issue_date, id: :complaint_issue_date %></td>
+        <td><%= form.number_field :part_count, min: 1, id: :complaint_part_count %></td>
+        <td><%= form.date_field :issue_date, id: :complaint_issue_date, :value => Time.current.strftime('%Y-%m-%d') %></td>
         <td><%= form.select :issue, @issue, {:include_blank => true}, {:value => params[:issue], id: :complaint_issue} %></td>
         <td><%= form.select :issue2, @issue, {:include_blank => true}, {:value => params[:issue2], id: :complaint_issue2} %></td>
+        <% if @editing %>
+          <td><%= form.select :status, @status, {}, {:value => params[:status], id: :complaint_status} %></td>
+        <% end %>
       </tr>
     </tbody>
   </table>
@@ -56,7 +62,7 @@
   <%= form.fields_for :complaint_images do |image| %>
     <div class="field">
       <%= image.label :image %>
-      <%= image.file_field :image%>
+      <%= image.file_field :image, :value => ' ' %>
       <% if image.object.image? %>
         <%= image_tag image.object.image.thumb.url %>
       <% end %>
@@ -67,3 +73,5 @@
     <%= form.submit 'Submit issue' %>
   </div>
 <% end %>
+<%= link_to 'New Issue', new_complaint_path %>
+<%= link_to 'New User', complaints_path %>

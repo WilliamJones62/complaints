@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181127220411) do
+ActiveRecord::Schema.define(version: 20191230210211) do
 
   create_table "complaint_images", force: :cascade do |t|
     t.integer "complaint_id"
@@ -29,11 +29,44 @@ ActiveRecord::Schema.define(version: 20181127220411) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "issue2"
-    t.string "issue3"
-    t.string "issue4"
-    t.string "issue5"
     t.string "image"
     t.text "notes"
+    t.string "lot"
+    t.string "order"
+    t.string "status"
+  end
+
+  create_table "employee_lists", force: :cascade do |t|
+    t.string "Employee_Status"
+    t.string "Badge_"
+    t.string "Cost_Center_Code"
+    t.string "Department"
+    t.string "Lastname"
+    t.string "Firstname"
+    t.date "Hire_Date"
+    t.date "Termination_Date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "Badge_No"
+    t.string "Employee_Name"
+  end
+
+  create_table "invitems", force: :cascade do |t|
+    t.string "invoice_numb"
+    t.string "order_numb"
+    t.string "part_code"
+    t.string "lot"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "partmstrs", force: :cascade do |t|
+    t.string "part_code"
+    t.string "part_desc"
+    t.string "part_grp"
+    t.string "uom"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
