@@ -32,6 +32,8 @@ class ComplaintsController < ApplicationController
       end
       if invitem
         cp[:lot] = invitem.lot
+        cp[:invoice] = invitem.invoice_numb
+        cp[:order] = invitem.order_numb
       end
     end
     cp[:status] = 'ACTIVE'
@@ -70,6 +72,8 @@ class ComplaintsController < ApplicationController
       end
       if invitem
         cp[:lot] = invitem.lot
+        cp[:invoice] = invitem.invoice_numb
+        cp[:order] = invitem.order_numb
       end
     end
     respond_to do |format|
@@ -151,7 +155,7 @@ class ComplaintsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def complaint_params
       params.require(:complaint).permit(
-        :user, :invoice, :part, :part_count, :issue_date, :issue, :issue2, :lot, :order, :status, :notes,
+        :user, :invoice, :part, :part_count, :issue_date, :issue, :issue2, :lot, :order, :status, :notes, :with_vendor,
         complaint_images_attributes: [
           :id,
           :image

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191230210211) do
+ActiveRecord::Schema.define(version: 20200113213223) do
 
   create_table "complaint_images", force: :cascade do |t|
     t.integer "complaint_id"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20191230210211) do
     t.string "lot"
     t.string "order"
     t.string "status"
+    t.boolean "with_vendor"
   end
 
   create_table "employee_lists", force: :cascade do |t|

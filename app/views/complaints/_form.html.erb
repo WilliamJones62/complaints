@@ -39,17 +39,19 @@
         <th><%= form.label :issue %></th>
         <th><%= form.label :issue2 %></th>
         <% if @editing %>
+          <th><%= form.label :with_vendor, 'With vendor?' %></th>
           <th><%= form.label :status %></th>
         <% end %>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><%= form.number_field :part_count, min: 1, id: :complaint_part_count %></td>
+        <td><%= form.number_field :part_count, min: 1, max: 9999, id: :complaint_part_count %></td>
         <td><%= form.date_field :issue_date, id: :complaint_issue_date, :value => Time.current.strftime('%Y-%m-%d') %></td>
         <td><%= form.select :issue, @issue, {:include_blank => true}, {:value => params[:issue], id: :complaint_issue} %></td>
         <td><%= form.select :issue2, @issue, {:include_blank => true}, {:value => params[:issue2], id: :complaint_issue2} %></td>
         <% if @editing %>
+          <td><%= form.check_box :with_vendor, id: :complaint_with_vendor %></td>
           <td><%= form.select :status, @status, {}, {:value => params[:status], id: :complaint_status} %></td>
         <% end %>
       </tr>
